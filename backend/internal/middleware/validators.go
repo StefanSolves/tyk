@@ -5,6 +5,8 @@ import (
 	"regexp"
 	"strings"
 	"unicode"
+	"context"
+	"github.com/StefanSolves/tyk/backend/internal/repository"
 
 	"github.com/StefanSolves/tyk/backend/internal/errors"
 )
@@ -234,4 +236,54 @@ func reportPasswordError(w http.ResponseWriter, message string) {
 	reportFieldErrors(w, "Password validation failed.", map[string]string{
 		"password": message,
 	})
+}
+
+
+
+// CheckUsernameAvailability creates a middleware that checks if the username is taken.
+func CheckUsernameAvailability(repo repository.UserRepository) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			payload := CtxGetPayload(r.Context())
+
+			taken, err := repo.IsUsernameTaken(r.Context(), payload.Username)
+			if err != nil {
+				errors.RespondWithError(w, http.StatusInternalServerError, "Error checking username")
+				return
+			}
+
+			if taken {
+				reportFieldErrors(w, "Username is not available.", map[string]string{
+					"username": "This username is already taken",
+				})
+				return // Stop the chain
+			}
+
+			next.ServeHTTP(w, r)
+		})
+	}
+}
+
+// CheckEmailAvailability creates a middleware that checks if the email is taken.
+func CheckEmailAvailability(repo repository.UserRepository) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			payload := CtxGetPayload(r.Context())
+
+			taken, err := repo.IsEmailTaken(r.Context(), payload.Email)
+			if err != nil {
+				errors.RespondWithError(w, http.StatusInternalServerError, "Error checking email")
+				return
+			}
+
+			if taken {
+				reportFieldErrors(w, "Email is not available.", map[string]string{
+					"email": "An account with this email already exists",
+				})
+				return // Stop the chain
+			}
+
+			next.ServeHTTP(w, r)
+		})
+	}
 }
