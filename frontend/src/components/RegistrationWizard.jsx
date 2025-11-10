@@ -1,15 +1,24 @@
 import React from 'react';
 import { useFormState } from '../context/FormContext';
+import { useFormContext } from 'react-hook-form'; 
+import StepIndicator from './StepIndicator'; // new components imported
+import Navigation from './Navigation'; // new components imported
 
-// We'll create and import these step components next
+// We'll create these step components next
 // import Step1 from './Step1_Personal';
 // import Step2 from './Step2_Address';
 // import Step3 from './Step3_Account';
 // import Step4 from './Step4_Review';
 
 const RegistrationWizard = () => {
-  // Get the current step from our FormContext
   const { state } = useFormState();
+  const { handleSubmit } = useFormContext(); // Get RHF's handleSubmit
+
+  // This is where we will POST to the API
+  const onFinalSubmit = (data) => {
+    console.log('Final Data:', data);
+    // We'll add our axios POST request here
+  };
 
   const renderStep = () => {
     switch (state.step) {
@@ -32,10 +41,18 @@ const RegistrationWizard = () => {
 
   return (
     <div className="wizard-container">
-      <h2>Registration - Step {state.step}</h2>
-      <form>
-        {/* Render the current step */}
+      {/* Add the StepIndicator */}
+      <StepIndicator />
+
+      {/* This form tag now uses RHF's handleSubmit.
+        It will *only* call onFinalSubmit if all fields are valid.
+        The "Submit" button in <Navigation> will trigger this.
+      */}
+      <form onSubmit={handleSubmit(onFinalSubmit)} noValidate>
         {renderStep()}
+        
+        {/* Add the Navigation buttons */}
+        <Navigation />
       </form>
     </div>
   );
