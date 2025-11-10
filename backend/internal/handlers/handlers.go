@@ -1,14 +1,14 @@
 package handlers
 
 import (
-	"encoding/json"
+	// "encoding/json"
 	"net/http"
 
 	"github.com/StefanSolves/tyk/backend/internal/errors"
 	"github.com/StefanSolves/tyk/backend/internal/models"
 	mw "github.com/StefanSolves/tyk/backend/internal/middleware"
 	"github.com/StefanSolves/tyk/backend/internal/repository"
-	"github.com/StefanSolves/tyk/backend/internal/types"
+	// "github.com/StefanSolves/tyk/backend/internal/types"
 )
 
 // API holds the dependencies for our handlers (like the repository).
