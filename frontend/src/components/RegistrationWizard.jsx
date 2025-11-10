@@ -5,11 +5,11 @@ import { useFormContext } from 'react-hook-form';
 import StepIndicator from './StepIndicator';
 import Navigation from './Navigation';
 
-// Import our step components
+// Import all our step components
 import Step1 from './Step1_Personal';
 import Step2 from './Step2_Address';
-import Step3 from './Step3_Account'; // <-- 1. Import Step 3
-// import Step4 from './Step4_Review';
+import Step3 from './Step3_Account';
+import Step4 from './Step4_Review'; // <-- 1. Import Step 4
 
 const RegistrationWizard = () => {
   const { state } = useFormState();
@@ -27,9 +27,9 @@ const RegistrationWizard = () => {
       case 2:
         return <Step2 />;
       case 3:
-        return <Step3 />; // <-- 2. Use the real component
+        return <Step3 />;
       case 4:
-        return <div>Step 4: Review (Coming Soon)</div>;
+        return <Step4 />; // <-- 2. Use the real component
       default:
         return <Step1 />;
     }
