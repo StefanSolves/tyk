@@ -1,0 +1,254 @@
+/* src/index.css */
+
+/* === 1. Global Setup & Variables === */
+:root {
+  --primary-color: #007bff;
+  --light-gray: #f4f7f6;
+  --gray: #e0e0e0;
+  --dark-gray: #757575;
+  --error-red: #d9534f;
+  --success-green: #5cb85c;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--light-gray);
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+h3 {
+  color: var(--primary-color);
+  margin-top: 0;
+}
+
+/* === 2. App & Wizard Layout === */
+.app-container {
+  width: 100%;
+  max-width: 700px; /* Wider container */
+}
+
+.wizard-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 3rem 3rem; /* More "breathing room" */
+  border-top: 4px solid var(--primary-color);
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+fieldset[disabled] {
+  opacity: 0.7;
+}
+
+/* === 3. Step Indicator === */
+.step-indicator {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+/* Gray line behind the steps */
+.step-indicator::before {
+  content: '';
+  position: absolute;
+  top: 18px; /* Aligns with center of step number */
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--gray);
+  z-index: 1;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  z-index: 2; /* Puts steps above the line */
+}
+
+.step-number {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  background-color: var(--gray);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border: 2px solid var(--gray);
+  transition: all 0.3s ease;
+}
+
+.step-title {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--dark-gray);
+}
+
+/* Active & Completed States */
+.step.active .step-number,
+.step.completed .step-number {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.step.active .step-title {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+.step.completed .step-title {
+  color: #333;
+}
+
+/* === 4. Form Fields === */
+.form-field {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.form-field input[type='text'],
+.form-field input[type='email'],
+.form-field input[type='password'],
+.form-field input[type='tel'],
+.form-field select {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--gray);
+  border-radius: 4px;
+  box-sizing: border-box; /* Important for padding */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+/* Checkbox */
+.form-field-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.form-field-checkbox input {
+  margin-right: 0.75rem;
+  height: 18px;
+  width: 18px;
+}
+.form-field-checkbox label {
+  margin: 0;
+  font-weight: normal;
+}
+
+/* === 5. Buttons === */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  border-top: 1px solid var(--light-gray);
+  padding-top: 1.5rem;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button[type='button'] {
+  background-color: var(--dark-gray);
+  color: white;
+}
+button[type='button']:hover {
+  background-color: #5a5a5a;
+}
+
+button[type='submit'] {
+  background-color: var(--primary-color);
+  color: white;
+}
+button[type='submit']:hover {
+  background-color: #0056b3;
+}
+
+/* === 6. Feedback (Errors, Loading, Success) === */
+.error {
+  color: var(--error-red);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.error-message {
+  color: var(--error-red);
+  background-color: rgba(217, 83, 79, 0.1);
+  border: 1px solid var(--error-red);
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.loading-message {
+  text-align: center;
+  font-weight: 500;
+  color: var(--dark-gray);
+  padding: 1rem 0;
+}
+
+/* Success state message */
+.wizard-container h3 {
+  color: var(--success-green);
+}
+
+/* === 7. Review Step === */
+.review-section {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--gray);
+  padding-bottom: 1rem;
+}
+.review-section:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.review-section h4 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: var(--primary-color);
+}
+.review-section p {
+  margin: 0.5rem 0;
+}
+.review-section p strong {
+  color: #333;
+}
