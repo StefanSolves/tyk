@@ -120,7 +120,7 @@ This section explains the "why" behind the technology choices, as requested in t
 * **Choice:** A simple, component-based architecture following Atomic Design principles.
 * **Rationale:** Instead of a complex UI library, I focused on a clean architecture. I built reusable **Molecules** (`FormInput`, `FormCheckbox`) which are composed into **Organisms** (`Step1`, `Step2`, etc.). This creates a clean, maintainable, and testable codebase that demonstrates strong software design, while a simple global CSS file provides the "clean and intuitive" UI.
 
-
+```mermaid
 graph TD
 
     %% ---------- Frontend ----------
@@ -149,7 +149,7 @@ graph TD
     subgraph DBLayer[Database (PostgreSQL)]
         Repo --> DB[(PostgreSQL)]
     end
-
+```
 
 
 
