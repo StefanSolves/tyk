@@ -122,35 +122,28 @@ This section explains the "why" behind the technology choices, as requested in t
 
 ```mermaid
 graph TD
-
-    %% ---------- Frontend ----------
-    subgraph FE[Frontend (React @ :5173)]
-        User[User Interaction]
-        User --> App[RegistrationWizard (React)]
-
-        App -->|Async Check| API_Check[GET /api/check-username]
-        App -->|Final Submit| API_Register[POST /api/register]
+    subgraph Frontend
+        User[User Interacts with UI] --> App(React App: RegistrationWizard);
+        App -- Async Check --> API_Check(GET /api/check-username);
+        App -- Final Submit --> API_Register(POST /api/register);
     end
 
-    %% ---------- Backend ----------
-    subgraph BE[Backend (Go API @ :8080)]
-        API_Check --> Router[Chi Router]
-        API_Register --> Router
+    subgraph Backend
+        API_Check --> Router[Go API: Chi Router];
+        API_Register --> Router;
 
-        Router -->|/api/check-username| CheckHandler[CheckUsername Handler]
-        CheckHandler --> Repo[UserRepository]
-
-        Router -->|/api/register| Middleware[Validation Middleware]
-        Middleware -->|Valid| RegisterHandler[RegisterUser Handler]
-        RegisterHandler --> Repo
+        Router -- /check-username --> CheckHandler(CheckUsername Handler);
+        CheckHandler --> Repo[UserRepository Interface];
+        
+        Router -- /api/register --> Middleware(Validation Middleware Chain);
+        Middleware -- All Valid --> RegisterHandler(RegisterUser Handler);
+        RegisterHandler --> Repo;
     end
 
-    %% ---------- Database ----------
-    subgraph DBLayer[Database (PostgreSQL)]
-        Repo --> DB[(PostgreSQL)]
+    subgraph Database
+        Repo --> DB[(PostgreSQL Database)];
     end
 ```
-
 
 
 💡 Limitations & Future Improvements
